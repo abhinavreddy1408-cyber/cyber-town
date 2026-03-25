@@ -1,0 +1,103 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Cormorant Garamond", serif;
+  
+  --color-base-dark: #111213;
+  --color-surface-dark: #1B1C1F;
+  --color-panel-dark: #212226;
+  
+  --color-base-light: #F3EFE9;
+  --color-surface-light: #EEE8DF;
+  --color-panel-light: #E4E2DC;
+  
+  --color-accent-gold: #B57A34;
+  --color-accent-gold-muted: #A56B2F;
+  --color-accent-gold-bright: #C08A45;
+  
+  --color-status-success: #4E6A56;
+  --color-status-error: #D96A72;
+  
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #A19B95;
+  --color-text-inverse: #111213;
+}
+
+:root {
+  background-color: var(--color-base-dark);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6, .font-serif {
+  font-family: var(--font-serif);
+  letter-spacing: -0.01em;
+}
+
+.glass {
+  background: rgba(27, 28, 31, 0.8);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(181, 122, 52, 0.15);
+}
+
+.premium-card {
+  background: var(--color-surface-dark);
+  border: 1px solid rgba(181, 122, 52, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.premium-button {
+  background: var(--color-accent-gold);
+  color: var(--color-base-dark);
+  font-weight: 600;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.75rem;
+}
+
+.premium-button:hover {
+  background: var(--color-accent-gold-bright);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(181, 122, 52, 0.2);
+}
+
+.premium-button:active {
+  transform: translateY(0);
+}
+
+.premium-input {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(181, 122, 52, 0.1);
+  color: var(--color-text-primary);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.premium-input:focus {
+  border-color: var(--color-accent-gold);
+  outline: none;
+  background: rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 0 2px rgba(181, 122, 52, 0.1);
+}
+
+.text-gold {
+  color: var(--color-accent-gold);
+}
+
+.bg-gold {
+  background-color: var(--color-accent-gold);
+}
+
+.border-gold {
+  border-color: var(--color-accent-gold);
+}
+

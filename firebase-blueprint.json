@@ -1,0 +1,35 @@
+{
+  "entities": {
+    "UserGameData": {
+      "title": "User Game Data",
+      "description": "Stores the player's progress, credits, and building status.",
+      "type": "object",
+      "properties": {
+        "credits": {
+          "type": "integer",
+          "description": "The amount of currency the player has."
+        },
+        "defenseLevel": {
+          "type": "integer",
+          "description": "The player's current security defense level."
+        },
+        "architecturalStage": {
+          "type": "integer",
+          "description": "The current stage of the player's building (-1 to 2)."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The last time the game state was saved."
+        }
+      },
+      "required": ["credits", "defenseLevel", "architecturalStage", "lastUpdated"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserGameData",
+      "description": "Collection of user-specific game progress data."
+    }
+  }
+}

@@ -1,0 +1,67 @@
+// ===============================================================
+// Assumed Data Model
+// ===============================================================
+//
+// This security rules file assumes the following data structures:
+//
+// Collection: /users/{userId}
+// Document ID: {userId} (matches Firebase Auth UID)
+// Fields:
+//   - credits: number (required, >= 0) - Player's currency
+//   - defenseLevel: number (required, >= 1) - Player's security level
+//   - architecturalStage: number (required, -1 to 2) - Building stage
+//   - lastUpdated: timestamp (required) - Last save time
+//
+// ===============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          (request.auth.token.email == "venugopalreddykgm@gmail.com" && request.auth.token.email_verified == true));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUserGameData(data) {
+      return data.keys().hasOnly(['credits', 'defenseLevel', 'architecturalStage', 'lastUpdated']) &&
+             data.credits is int && data.credits >= 0 &&
+             data.defenseLevel is int && data.defenseLevel >= 1 &&
+             data.architecturalStage is int && data.architecturalStage >= -1 && data.architecturalStage <= 2 &&
+             data.lastUpdated is timestamp;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      // Users can only read their own data, admins can read all
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // Users can create/update their own data if it's valid
+      allow create: if isOwner(userId) && isValidUserGameData(request.resource.data);
+      allow update: if (isOwner(userId) && isValidUserGameData(request.resource.data)) || isAdmin();
+      
+      // Only admins can delete user data
+      allow delete: if isAdmin();
+    }
+  }
+}
